@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useAnimation } from "framer-motion"
+import { motion, useAnimation, Variants } from "framer-motion"
 import { useEffect, useRef } from "react"
 import { useInView } from "framer-motion"
 
@@ -11,7 +11,7 @@ interface AnimatedTextProps {
 
 export default function AnimatedText({ text, className = "" }: AnimatedTextProps) {
   const controls = useAnimation()
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement | null>(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function AnimatedText({ text, className = "" }: AnimatedTextProps
 
   const letters = text.split("")
 
-  const container = {
+  const container: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -31,7 +31,7 @@ export default function AnimatedText({ text, className = "" }: AnimatedTextProps
     },
   }
 
-  const child = {
+  const child: Variants = {
     hidden: {
       y: "120%",
       opacity: 0,
