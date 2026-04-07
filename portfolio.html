@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScribbleCult | Portfolio</title>
+  <meta name="description" content="ScribbleCult portfolio featuring client logos, creative direction, and immersive campaign presentation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+  <div class="portfolio-shell">
+    <a class="portfolio-back-button" href="index.html" aria-label="Back to main website">
+      <span class="portfolio-back-arrow">&larr;</span>
+    </a>
+
+    <aside class="scroll-panel" aria-label="Portfolio section progress">
+      <a class="scroll-panel-link active" href="#top" data-section-link="top">
+        <span class="scroll-dot"></span>
+        <span>Intro</span>
+      </a>
+      <a class="scroll-panel-link" href="#clients" data-section-link="clients">
+        <span class="scroll-dot"></span>
+        <span>Clients</span>
+      </a>
+      <a class="scroll-panel-link" href="#showcase" data-section-link="showcase">
+        <span class="scroll-dot"></span>
+        <span>Showcase</span>
+      </a>
+      <a class="scroll-panel-link" href="#connect" data-section-link="connect">
+        <span class="scroll-dot"></span>
+        <span>Contact</span>
+      </a>
+    </aside>
+
+    <main>
+      <section class="portfolio-hero" id="top">
+        <canvas id="portfolio-canvas" aria-hidden="true"></canvas>
+        <div class="hero-noise"></div>
+
+        <div class="hero-copy">
+          <p class="eyebrow">ScribbleCult portfolio</p>
+          <h1>
+            Brand worlds
+            <span>in motion.</span>
+          </h1>
+          <p>
+            A dedicated portfolio page for the clients, visuals, and campaigns ScribbleCult has shaped. The motion language is more experimental here on purpose: layered depth, floating perspective, and a presentation that feels closer to a creative treatment than a basic gallery.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#showcase">Enter showcase</a>
+            <a class="button button-secondary" href="index.html">Back to home</a>
+          </div>
+        </div>
+
+        <div class="hero-stack" aria-hidden="true">
+          <div class="floating-panel panel-a">
+            <span>Creative Direction</span>
+          </div>
+          <div class="floating-panel panel-b">
+            <span>Motion Visuals</span>
+          </div>
+          <div class="floating-panel panel-c">
+            <span>Launch Systems</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="client-section" id="clients">
+        <div class="section-heading">
+          <p class="eyebrow">Client Logos</p>
+          <h2>Brands we have designed for, built with, or helped position visually.</h2>
+        </div>
+
+        <div class="client-logo-grid">
+          <article class="client-logo-card tilt-card">
+            <div class="client-logo-stage">
+              <img src="clientlogos/294490142_380895737478954_6103097605350185963_n.png" alt="S.P. Stationers logo">
+            </div>
+            <p>S.P. Stationers</p>
+          </article>
+
+          <article class="client-logo-card tilt-card">
+            <div class="client-logo-stage">
+              <img src="clientlogos/Logo_WBG_White.png" alt="The Look Studio By Suhani logo">
+            </div>
+            <p>The Look Studio</p>
+          </article>
+
+          <article class="client-logo-card tilt-card">
+            <div class="client-logo-stage">
+              <img src="clientlogos/TEST (9).png" alt="Cafe Neesh logo">
+            </div>
+            <p>Cafe Neesh</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="showcase-section" id="showcase">
+        <div class="section-heading">
+          <p class="eyebrow">Showcase</p>
+          <h2>Built to hold real portfolio work from the <code>portfolio</code> folder as soon as you drop files in.</h2>
+        </div>
+
+        <div class="showcase-grid">
+          <article class="showcase-card showcase-card-feature tilt-card">
+            <div class="showcase-media placeholder-media">
+              <span>portfolio/ is ready for hero project visuals</span>
+            </div>
+            <div class="showcase-copy">
+              <p class="card-kicker">Featured Project</p>
+              <h3>Motion-led launch direction with layered visuals, campaign art, and conversion-focused digital framing.</h3>
+              <p>
+                This slot is ready for your strongest case study. Add an image or video to the <code>portfolio</code> folder and we can wire it here next.
+              </p>
+            </div>
+          </article>
+
+          <article class="showcase-card tilt-card">
+            <div class="showcase-media placeholder-media small">
+              <span>Drop case study image here</span>
+            </div>
+            <div class="showcase-copy">
+              <p class="card-kicker">Case Study 01</p>
+              <h3>Campaign identity and social rollout.</h3>
+            </div>
+          </article>
+
+          <article class="showcase-card tilt-card">
+            <div class="showcase-media placeholder-media small">
+              <span>Drop case study image here</span>
+            </div>
+            <div class="showcase-copy">
+              <p class="card-kicker">Case Study 02</p>
+              <h3>Website, visuals, and launch assets.</h3>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="portfolio-contact" id="connect">
+        <p class="eyebrow">Build with us</p>
+        <h2>Need a portfolio presence this strong for your own brand launch?</h2>
+        <p>We can build the full visual system, campaign story, website experience, and motion-first assets around your offer.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="mailto:scribblecult123@gmail.com?subject=ScribbleCult%20Portfolio%20Inquiry">scribblecult123@gmail.com</a>
+          <a class="button button-secondary" href="index.html#about">About ScribbleCult</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="portfolio.js"></script>
+</body>
+</html>
