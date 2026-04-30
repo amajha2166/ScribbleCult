@@ -528,6 +528,46 @@ button {
   max-width: 100% !important;
 }
 
+.reel-load-prompt {
+  width: 100%;
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  align-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.reel-load-button {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 83, 61, 0.58);
+  border-radius: 999px;
+  background: rgba(255, 83, 61, 0.16);
+  color: #fff9f4;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.reel-load-button:hover,
+.reel-load-button:focus-visible {
+  background: rgba(255, 83, 61, 0.28);
+  transform: translateY(-2px);
+}
+
+.reel-fallback-link {
+  color: rgba(247, 241, 232, 0.66);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .instagram-media a {
   color: #151515;
 }
