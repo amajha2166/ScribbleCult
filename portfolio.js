@@ -3,6 +3,8 @@ const context = canvas.getContext("2d");
 const tiltCards = document.querySelectorAll(".tilt-card");
 const panels = document.querySelectorAll(".floating-panel");
 const sectionLinks = document.querySelectorAll(".scroll-panel-link");
+const revealCards = document.querySelectorAll(".reveal-card");
+const reelShells = document.querySelectorAll(".reel-embed-shell");
 const trackedSections = [
   document.getElementById("top"),
   document.getElementById("clients"),
@@ -23,6 +25,7 @@ const scene = {
   pointerY: 0.5,
   orbs: []
 };
+let instagramScriptPromise = null;
 
 function resizeCanvas() {
   const ratio = window.devicePixelRatio || 1;
@@ -103,12 +106,149 @@ function updateScrollPanel() {
   });
 }
 
+function smoothScrollToSection(event) {
+  const href = event.currentTarget.getAttribute("href");
+  if (!href || !href.startsWith("#")) {
+    return;
+  }
+
+  const target = document.querySelector(href);
+  if (!target) {
+    return;
+  }
+
+  event.preventDefault();
+
+  target.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+  window.history.replaceState(null, "", href);
+}
+
+function loadInstagramScript() {
+  if (window.instgrm?.Embeds) {
+    return Promise.resolve();
+  }
+
+  if (instagramScriptPromise) {
+    return instagramScriptPromise;
+  }
+
+  instagramScriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.instagram.com/embed.js";
+    script.onload = resolve;
+    script.onerror = reject;
+    document.body.appendChild(script);
+  });
+
+  return instagramScriptPromise;
+}
+
+function loadReelEmbed(shell) {
+  if (!shell || shell.dataset.loaded === "true" || !shell.lazyEmbedHtml) {
+    return;
+  }
+
+  shell.dataset.loaded = "true";
+  shell.innerHTML = shell.lazyEmbedHtml;
+
+  loadInstagramScript()
+    .then(() => {
+      window.instgrm?.Embeds?.process(shell);
+    })
+    .catch(() => {
+      const link = shell.lazyReelUrl || "#";
+      shell.innerHTML = `<div class="reel-load-prompt"><a class="reel-link" href="${link}" target="_blank" rel="noreferrer">Open reel on Instagram</a></div>`;
+    });
+}
+
+function prepareLazyReels() {
+  if (!reelShells.length) {
+    return;
+  }
+
+  const reelObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        loadReelEmbed(entry.target);
+        reelObserver.unobserve(entry.target);
+      });
+    },
+    {
+      rootMargin: "520px 0px",
+      threshold: 0.01
+    }
+  );
+
+  reelShells.forEach((shell) => {
+    const embed = shell.querySelector(".instagram-media");
+    const link = embed?.querySelector("a");
+    const reelUrl = embed?.dataset.instgrmPermalink || link?.href || "#";
+
+    if (!embed) {
+      return;
+    }
+
+    shell.lazyEmbedHtml = embed.outerHTML;
+    shell.lazyReelUrl = reelUrl;
+    shell.innerHTML = `
+      <div class="reel-load-prompt">
+        <button class="reel-load-button" type="button">Load Reel</button>
+        <a class="reel-fallback-link" href="${reelUrl}" target="_blank" rel="noreferrer">Open on Instagram</a>
+      </div>
+    `;
+
+    shell.querySelector(".reel-load-button")?.addEventListener("click", () => {
+      loadReelEmbed(shell);
+      reelObserver.unobserve(shell);
+    });
+
+    reelObserver.observe(shell);
+  });
+}
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.18,
+    rootMargin: "0px 0px -8% 0px"
+  }
+);
+
 window.addEventListener("pointermove", (event) => {
   scene.pointerX = event.clientX / window.innerWidth;
   scene.pointerY = event.clientY / window.innerHeight;
 });
 
 window.addEventListener("scroll", updateScrollPanel, { passive: true });
+
+sectionLinks.forEach((link) => {
+  link.addEventListener("click", smoothScrollToSection);
+});
+
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", smoothScrollToSection);
+});
+
+revealCards.forEach((card, index) => {
+  card.style.transitionDelay = `${Math.min(index * 40, 240)}ms`;
+  revealObserver.observe(card);
+});
 
 tiltCards.forEach((card) => {
   card.addEventListener("pointermove", (event) => {
@@ -128,6 +268,7 @@ tiltCards.forEach((card) => {
 
 window.addEventListener("resize", resizeCanvas);
 
+prepareLazyReels();
 resizeCanvas();
 updateScrollPanel();
 requestAnimationFrame(draw);
